@@ -1,6 +1,9 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Scanner;
 
-public class Assignment5_StringManipulation {
+public class test {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -52,6 +55,12 @@ public class Assignment5_StringManipulation {
 
         // TODO: Подсчитать количество гласных (a, e, i, o, u)
         int count = 0;
+        input = input.toLowerCase();
+
+        char[] list = input.toCharArray();
+        for (int i = 0; i < list.length; i++) {
+            count += list[i] == 'a' || list[i] == 'e' || list[i] == 'i' || list[i] == 'o' || list[i] == 'u' ? 1 : 0;
+        }
 
         System.out.println("Number of vowels: " + count);
     }
@@ -63,6 +72,9 @@ public class Assignment5_StringManipulation {
 
         // TODO: Вывести строку в обратном порядке
         String reversed = "";
+        for (int i = input.length() - 1; i >= 0; i--){
+            reversed += input.charAt(i);
+        }
 
         System.out.println(reversed);
     }
@@ -73,7 +85,13 @@ public class Assignment5_StringManipulation {
         String input = scanner.nextLine();
 
         // TODO: Проверить, является ли строка палиндромом (игнорировать регистр)
-        boolean isPalindrome = false;
+        boolean isPalindrome = true;
+
+        for  (int i = input.length() - 1, j = 0; i >= 0 && j < input.length(); i--, j++) {
+            if(input.charAt(i) != input.charAt(j)) {
+                isPalindrome = false;
+            }
+        }
 
         System.out.println(isPalindrome ? "Yes" : "No");
     }
@@ -86,6 +104,8 @@ public class Assignment5_StringManipulation {
         // TODO: Подсчитать количество слов в предложении
         int wordCount = 0;
 
+        wordCount = sentence.split(" ").length;
+
         System.out.println("Number of words: " + wordCount);
     }
 
@@ -96,6 +116,8 @@ public class Assignment5_StringManipulation {
 
         // TODO: Удалить все пробелы из строки
         String noSpaces = "";
+
+        noSpaces = String.join("",  input.split(" "));
 
         System.out.println(noSpaces);
     }
@@ -108,6 +130,15 @@ public class Assignment5_StringManipulation {
         // TODO: Преобразовать первую букву каждого слова в заглавную
         String result = "";
 
+        result += Character.toString(sentence.charAt(0)).toUpperCase();
+        for (int i = 1; i < sentence.length(); i++) {
+            if (sentence.charAt(i-1) == ' '){
+                result += Character.toString(sentence.charAt(i)).toUpperCase();
+            } else {
+                result += sentence.charAt(i);
+            }
+        }
+
         System.out.println(result);
     }
 
@@ -118,6 +149,20 @@ public class Assignment5_StringManipulation {
 
         // TODO: Найти символ, который встречается чаще всего
         char mostFrequent = ' ';
+
+        int maxCount = 0;
+        int maxIndex = 0;
+        int[] count = new int[256];
+        for (char c : input.toCharArray()) {
+            count[c]++;
+        }
+        for  (int i = 0; i < count.length; i++) {
+            if (count[i] > maxCount) {
+                maxCount = count[i];
+                maxIndex = i;
+            }
+        }
+        mostFrequent = (char) maxIndex;
 
         System.out.println("The most frequent character is: " + mostFrequent);
     }
@@ -130,7 +175,19 @@ public class Assignment5_StringManipulation {
         String str2 = scanner.nextLine();
 
         // TODO: Проверить, являются ли две строки анаграммами (игнорировать пробелы и регистр)
-        boolean areAnagrams = false;
+        boolean areAnagrams = true;
+
+        char[] list1 = str1.toLowerCase().replaceAll(" ", "").toCharArray();
+        Arrays.sort(list1);
+        char[] list2 =  str2.toLowerCase().replaceAll(" ", "").toCharArray();
+        Arrays.sort(list2);
+        if  (list1.length != list2.length) {areAnagrams = false;} else {
+            for (int i = 0; i < list1.length; i++) {
+                if (list1[i] != list2[i]) {
+                    areAnagrams = false;
+                }
+            }
+        }
 
         System.out.println(areAnagrams ? "Yes" : "No");
     }
